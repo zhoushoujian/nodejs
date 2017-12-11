@@ -5,7 +5,8 @@ MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var myquery = { address: "Valley 345" };
     var newvalues = { name: "Mickey", address: "Canyon 123" };
-    db.collection("user").updateOne(myquery, newvalues, function (err, res) {
+  var dbase = db.db("mydb"); //here
+    dbase.collection("user").updateOne(myquery, newvalues, function (err, res) {
         if (err) throw err;
         console.log(res);
         db.close();

@@ -19,7 +19,8 @@ MongoClient.connect(url, function (err, db) {
     { name: 'Chuck', address: 'Main Road 989' },
     { name: 'Viola', address: 'Sideway 1633' }
   ];
-  db.collection("user").insertMany(myobj, function (err, res) {
+  var dbase = db.db("mydb"); 
+  dbase.collection("user").insertMany(myobj, function (err, res) {
     if (err) throw err;
     console.log("Number of documents inserted: " + res.insertedCount);
     db.close();
