@@ -49,6 +49,10 @@ function abc(q, b, function() {
 ===
 Promise表示一个异步操作事件的完成(或者失败)状态以及相关的值信息。
 
+与回调不同，它三有几个保证：
+
+1. 
+
 Promise是一个有三个状态的对象，分别是：
 1. pending
 2. fulfilled
