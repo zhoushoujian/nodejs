@@ -45,8 +45,17 @@ function abc(q, b, function() {
 }
 ```
 ---
-如何防止回调地狱（Promise)
+防止回调地狱的方案-Promise
 ===
+Promise表示一个异步操作事件的完成(或者失败)状态以及相关的值信息。
+
+Promise是一个有三个状态的对象，分别是：
+1. pending
+2. fulfilled
+3. rejected
+
+---
+
 1. 方法考虑将代码线性化
 即将回调函数通过某种方案写成是线性的
 这种方案后来叫成是Promise
@@ -77,6 +86,33 @@ p.then(function() {
 }).then(f1).then(f2)...
 ```
 ---
+3. 捕获错误.catch
+===
+```
+p.then(function() {
+ return new Promise();
+}).catch(f1).then(f2)...
+```
+
+4. 无论是不是出错都都执行
+
+其中f2最后面的函数是错误后仍会执行的函数
+
+5. 让所有promise都执行.all
+
+```
+var p1 = Promise.resolve(3);
+var p2 = 1337;
+var p3 = new Promise((resolve, reject) => {
+  setTimeout(resolve, 100, 'foo');
+}); 
+
+Promise.all([p1, p2, p3]).then(values => { 
+  console.log(values); // [3, 1337, "foo"] 
+});
+```
+
+---
 async/await
 ===
 终极解决方案
@@ -98,7 +134,6 @@ async function timed() {
 timed()
 ```
 ---
-
 比较
 ===
 1. 回调
@@ -106,7 +141,7 @@ timed()
 2. Promise
 适合必须返回后才能继续的工作
 3. async/await
-让异步的代码看起来与同步的代码是一样的。需要与Promise配合
+让异步的代码看起来与同步的代码是一样的。需要与Promise配合使用
 
 
 

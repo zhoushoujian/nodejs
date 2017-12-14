@@ -8,7 +8,7 @@ redisClient.on("connect", function() {
   redisClient.set(["key3", "value3"], function() {
     console.log("inside end");
     console.log(arguments);
-    redisClient.get("key1", function(err, reply) {
+    redisClient.get("key3", function(err, reply) {
       console.log(reply);
       redisClient.quit();
     });
