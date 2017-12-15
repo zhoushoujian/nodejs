@@ -22,6 +22,8 @@ obj.on("event1", function() {
 });
 ```
 
+---
+
 3. 回调可以降低代码的耦合性
 回调函数回调时，不需要知道之前的函数的内容 
 
@@ -49,10 +51,11 @@ function abc(q, b, function() {
 ===
 Promise表示一个异步操作事件的完成(或者失败)状态以及相关的值信息。
 
+
 Promise是一个有三个状态的对象，分别是：
-1. pending
-2. fulfilled
-3. rejected
+1. pending (相当于异步调用过程）
+2. fulfilled  （成功状态）
+3. rejected  （失败状态）
 
 ---
 
@@ -97,6 +100,8 @@ p.then(function() {
 4. 无论是不是出错都都执行
 
 其中f2最后面的函数是错误后仍会执行的函数
+
+---
 
 5. 让所有promise都执行.all
 
