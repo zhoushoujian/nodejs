@@ -89,7 +89,7 @@ OAuth的角色
 1. 向资源拥有者(Resource Owner)发起资源许可(Grant)请求。
 请求通常可以直接向资源拥有者(Resource Owner)发起，也可以通过授权服务器(Authorization Server）跳转过来。
 2. 从资源拥有者(Resource Owner)手中获取资源许可(Grant)
-这个授权代表资源拥有者(Resource Owner)，并且包含有四种许可(Grant)类型。允许(Grant)类型与客户端的请求和服务器的支持相关。
+这个授权代表资源拥有者(Resource Owner)，并且包含有四种许可(Grant)类型。许可(Grant)类型与客户端的请求和服务器的支持相关。
 
 ---
 
@@ -104,14 +104,16 @@ OAuth的角色
 2. 服务器授权(Token)
 3. 资源获取
 
-OAuth添加了1,2两步，让第三步更加安全
+OAuth添加了1, 2两步用于验证，让第三步更加安全
 
 ---
 OAuth运行的先决条件
 ===
 1. 资源服务器(Resource Server)与拥有者(Resource Owner）都已经存在
 2. 授权服务器(Authorization Server)存在，并且可以注册
-3. 客户端在授权服务器(Authorization Server)上已经注册完成，否则无法获得服务器授权或者跳转
+3. 客户端（Client）在授权服务器(Authorization Server)上已经注册完成，否则无法获得服务器授权或者跳转
+
+最后客户端要实相相关的请求。
 
 对于微信开发来讲，微信用户就资源与拥有者。只需要对接微信的授权服务器就可以开始微信开发了。
 
@@ -123,7 +125,7 @@ OAuth运行的先决条件
 
 必须完成的工作：
 1.确定客户类型
-2.重定向URI
+2.重定向URI，回调URL
 3.其它服务器要求的信息（比如密钥）
 
 这个过程类似于微信的帐号注册。
@@ -488,7 +490,7 @@ Token请求（Access Token Request）
 - Token响应（Access Token Response）
 通常是JSON结果。示例：
 ```
-HTTP/1.1 200 OK
+     HTTP/1.1 200 OK
      Content-Type: application/json;charset=UTF-8
      Cache-Control: no-store
      Pragma: no-cache
@@ -517,6 +519,7 @@ HTTP/1.1 200 OK
 
 ---
 
+```
 
      +----------+
      | Resource |
@@ -595,11 +598,15 @@ HTTP/1.1 200 OK
         client resource locally, which extracts the access token.
 
    (G)  The user-agent passes the access token to the client.
-
+```
 ---
 授权请求（Authorization Request）
 ===
-参数：
+
+参数
+
+---
+
 ```
    response_type
          REQUIRED.  Value MUST be set to "token".
@@ -660,10 +667,16 @@ Token响应（Access Token Response）
 ```
 ---
 示例
+
 ```
      HTTP/1.1 302 Found
      Location: http://example.com/cb#access_token=2YotnFZFEjr1zCsicMWpAA
                &state=xyz&token_type=example&expires_in=3600
+```
+
+Fragement是用#号开头的内容，这里对应
+```
+#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600
 ```
 
 ---
