@@ -1,6 +1,6 @@
 # Nodejs Web开发
 
-## Nodejs基础
+## Nodejs介绍与安装
 
 ### [创世纪](./1.%20创世纪.md)
 - Nodejs的创造，历史背景与价值
@@ -18,6 +18,8 @@
 - REPL运行
 - 文件里运行
 
+## Nodejs基础知识
+
 ### [全局变量](./4.%20全局变量.md)
 - global, console, process
 - 定时器(timers)
@@ -30,6 +32,8 @@
 - 模块的引用
 - 模块的创建
 - module.exports 与 exports的差别
+
+## Nodejs核心概念
 
 ### [网络编程](./6.%20网络编程.md)
 - OSI与TCP/IP
@@ -50,6 +54,8 @@
 - on与once的差别
 - 示例与深入理解
 
+## Nodejs重要概念与官方包
+
 ### [Buffer与流](./8.%20Buffer%20与%20流.md)
 - 什么是Buffer? 有什么作用？
 - Buffer的使用
@@ -67,6 +73,15 @@
 - 常用目录操作API
 - path包
 
+## Nodejs包机制与重要的第三方包
+- lodash
+- async
+- debug
+- moment
+- request
+- cheerio
+- rxjs
+
 ### [npm包管理](./10.%20npm包管理.md)
 - npm介绍
 - 其它语言的包管理系统
@@ -80,6 +95,8 @@
 - SEMVER及自动更新带来的问题与解决方案
 
 ### [重要的一些基础包](./11.%20重要的一些基础包.md)
+
+## Nodejs与Web服务器技术
 
 ### [Web开发](./12.%20Web开发.md)
 - 认识HTTP
@@ -104,3 +121,41 @@
 - Mongodb数据库基本操作
 - 应用mysql包调用mysql服务
 - 应用mongodb包调用mongodb服务
+
+### [字符与编码](./advanced/字符与编码.md)
+
+
+## 函数、回调函数与异步调用的代码同步化
+
+### [箭头函数与匿名函数](./advanced/箭头函数vs匿名函数.md)
+
+### [异步调用的注意点](./advanced/异步调用的注意点.md)
+
+### [异步IO的代码同步代](./advanced/异步调用的注意点.md)
+
+## 写好的代码，设计好的API
+
+### [代码风格](./advanced/代码风格.md)
+
+### [单元测试与持续集成](./advanced/单元测试与持续集成.md)
+
+### [Web API设计](./advanced/Web API设计.md)
+
+## 服务器加速，优化，部署，访问
+
+### [缓存技术与性能测试](./advanced/缓存技术与性能测试.md)
+
+### [服务器配置与部署](./advanced/服务器配置与部署.md)
+
+## OAuth,即服务器间的分享，互联(以微信公众号开发为例)
+
+### [OAuth与微信公众号开发](./advanced/OAuth与微信公共号开发.md)
+
+### [微信公众号开发](./advanced/微信公众号开发.md)
+
+
+## 网络安全
+
+### [网络安全基础](./advanced/网络安全基础.md)
+
+
