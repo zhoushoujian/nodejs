@@ -74,13 +74,6 @@
 - path包
 
 ## Nodejs包机制与重要的第三方包
-- lodash
-- async
-- debug
-- moment
-- request
-- cheerio
-- rxjs
 
 ### [npm包管理](./10.%20npm包管理.md)
 - npm介绍
@@ -95,6 +88,14 @@
 - SEMVER及自动更新带来的问题与解决方案
 
 ### [重要的一些基础包](./11.%20重要的一些基础包.md)
+
+- lodash
+- async
+- debug
+- moment
+- request
+- cheerio
+- rxjs
 
 ## Nodejs与Web服务器技术
 
@@ -139,7 +140,7 @@
 
 ### [单元测试与持续集成](./advanced/单元测试与持续集成.md)
 
-### [Web API设计](./advanced/Web API设计.md)
+### [Web API设计](./advanced/Web%20API设计.md)
 
 ## 服务器加速，优化，部署，访问
 
@@ -149,7 +150,7 @@
 
 ## OAuth,即服务器间的分享，互联(以微信公众号开发为例)
 
-### [OAuth与微信公众号开发](./advanced/OAuth与微信公共号开发.md)
+### [OAuth与微信公众号开发](./advanced/OAuth与微信公众号开发.md)
 
 ### [微信公众号开发](./advanced/微信公众号开发.md)
 
