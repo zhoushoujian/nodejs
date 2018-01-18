@@ -5,7 +5,7 @@ template: gaia
 
 
 Node.js进阶
-异步IO的代码的同步化<p style="text-align:right;font-size:28px;margin-right:50px;color:#cFc;">:star: by calidion</p>
+异步IO的代码同步化<p style="text-align:right;font-size:28px;margin-right:50px;color:#cFc;">:star: by calidion</p>
 ===
 ---
 回调函数
