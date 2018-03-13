@@ -1,6 +1,6 @@
-> 本教程是由Marp制作的PPT，保存格式是.md
-> 使用Marp可以得到更好的观看效果。
-> Marp下载地址：https://yhatt.github.io/marp/
+> 本教程是由Marp制作的PPT，保存格式是.md   
+> 使用Marp可以得到更好的观看效果。   
+> Marp下载地址：https://yhatt.github.io/marp/   
 
 # Nodejs Web开发
 
