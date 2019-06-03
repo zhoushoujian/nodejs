@@ -65,7 +65,7 @@ Promise是一个有三个状态的对象，分别是：
 2. 提供线性化方法then
 通过Promise.then方法实现了线性化
 3. 链式调用
-Promise.then(f1).then(f2).then(..)...then(fn)
+Promise.then(f1).then(f2).then(..)...then(fn).catch(..).finally(..)
 4. 从而获得比较清楚的调用逻辑
 
 ---
@@ -136,7 +136,7 @@ async function timed() {
 	console.log(ms + " ms passed!");
 }
 
-timed()
+timed().then(() => {...});
 ```
 ---
 比较
