@@ -1,64 +1,87 @@
-<!--
-$theme: gaia
-template: gaia
--->
+---
+marp: true
+paginate: true
+style: |
+  h1 {
+    color: #0bb8e8;
+  }
+---
 
-Node.js进阶
-OAuth2与微信公共号开发<p style="text-align:right;font-size:28px;margin-right:50px;color:#cFc;">:star: by calidion</p>
-===
+<style scoped>
+h1,h2 {
+	color: #0bb8e8;
+	text-align: center
+}
+h2 {
+	text-align: right
+}
+
+</style>
+
+# Node.js 进阶
+
+# OAuth2 与微信公共号开发
+
+## :star: by calidion
 
 ---
-OAuth介绍
-===
-OAuth是一个开放的资源授权标准。
+
+# OAuth 介绍
+
+OAuth 是一个开放的资源授权标准。
 目前主要有两个版本：
+
 1. 1.0, 1.0a
-对应[rfc5849](https://tools.ietf.org/html/rfc5849)
-2. 2.0	
-对应[rfc6749](https://tools.ietf.org/html/rfc6749)
+   对应[rfc5849](https://tools.ietf.org/html/rfc5849)
+2. 2.0
+   对应[rfc6749](https://tools.ietf.org/html/rfc6749)
 
 ---
-为什么要使用OAuth？
-===
+
+# 为什么要使用 OAuth？
+
 对于腾讯、阿里这样的公司，它们需要
+
 1. 分享用户
-与第三方公司合作，让第三方公司可以访问到它们的相关用户信息。
+   与第三方公司合作，让第三方公司可以访问到它们的相关用户信息。
 
 2. 分享资源
-把很多资源拿出来授权给可信的个人或者组织，但是又不能完全授权
+   把很多资源拿出来授权给可信的个人或者组织，但是又不能完全授权
 
 3. 扩展网站能力
-虽然他们的能力非常强大，但是不可能面面具到，所以需要第三方参与提供更加多元的能力
+   虽然他们的能力非常强大，但是不可能面面具到，所以需要第三方参与提供更加多元的能力
 
 ---
 
 4. 有限访问
-可以尽可能更加细粒度的控制自己的资源，并且进行管理
+   可以尽可能更加细粒度的控制自己的资源，并且进行管理
 
 5. 实现无密码访问
-不需要将密码保存在第三方网站，就能享用第三方网站的功能
+   不需要将密码保存在第三方网站，就能享用第三方网站的功能
 
 6. 授权管理
-可以随时对授权进行撤回处理，提高安全性
+   可以随时对授权进行撤回处理，提高安全性
 
 ---
-OAuth的角色
-===
+
+# OAuth 的角色
+
 1. resource owner（资源拥有者）
-一个可以授权资源的实体。如果是一个个人时，通常是指最终用户。比如微信用户。
+   一个可以授权资源的实体。如果是一个个人时，通常是指最终用户。比如微信用户。
 
 2. resource server（资源服务器）
-拥有资源的服务器，基于访问token接受或者响应对受限资源的请求。比如微信的各种资源服务器。
+   拥有资源的服务器，基于访问 token 接受或者响应对受限资源的请求。比如微信的各种资源服务器。
 
 3. client（客户）
-请求资源的应用。不限于应用的形式，可以是服务器，桌面应用，手机应用等。比如微信公众号开发者的服务器。
+   请求资源的应用。不限于应用的形式，可以是服务器，桌面应用，手机应用等。比如微信公众号开发者的服务器。
 
 ---
-4. authorization server（身份鉴权服务器/授权服务器）
-发出访问token给client的服务器。当resource owner允许了client的授权请求后，authorization server就会生成一个token给client。
 
->2和4可以是同一个服务器
->2和4的交互不在OAuth的讨论范围
+4. authorization server（身份鉴权服务器/授权服务器）
+   发出访问 token 给 client 的服务器。当 resource owner 允许了 client 的授权请求后，authorization server 就会生成一个 token 给 client。
+
+> 2 和 4 可以是同一个服务器
+> 2 和 4 的交互不在 OAuth 的讨论范围
 
 ---
 
@@ -84,31 +107,35 @@ OAuth的角色
 ```
 
 ---
-协议流程
-===
+
+# 协议流程
+
 1. 向资源拥有者(Resource Owner)发起资源许可(Grant)请求。
-请求通常可以直接向资源拥有者(Resource Owner)发起，也可以通过授权服务器(Authorization Server）跳转过来。
+   请求通常可以直接向资源拥有者(Resource Owner)发起，也可以通过授权服务器(Authorization Server）跳转过来。
 2. 从资源拥有者(Resource Owner)手中获取资源许可(Grant)
-这个授权代表资源拥有者(Resource Owner)，并且包含有四种许可(Grant)类型。许可(Grant)类型与客户端的请求和服务器的支持相关。
+   这个授权代表资源拥有者(Resource Owner)，并且包含有四种许可(Grant)类型。许可(Grant)类型与客户端的请求和服务器的支持相关。
 
 ---
 
-3. 客户端带允许(Grant)向授权服务器(Authorization Server）请求Token
-4. 鉴权成功，客户端获取Token
-5. 客户端带Token向资源服务器(Resource Server)请求资源
+3. 客户端带允许(Grant)向授权服务器(Authorization Server）请求 Token
+4. 鉴权成功，客户端获取 Token
+5. 客户端带 Token 向资源服务器(Resource Server)请求资源
 6. 资源服务器(Resource Server)返回资源内容
 
 ---
+
 简单说就是：
+
 1. 用户许可(Grant)
 2. 服务器授权(Token)
 3. 资源获取
 
-OAuth添加了1, 2两步用于验证，让第三步更加安全
+OAuth 添加了 1, 2 两步用于验证，让第三步更加安全
 
 ---
-OAuth运行的先决条件
-===
+
+# OAuth 运行的先决条件
+
 1. 资源服务器(Resource Server)与拥有者(Resource Owner）都已经存在
 2. 授权服务器(Authorization Server)存在，并且可以注册
 3. 客户端（Client）在授权服务器(Authorization Server)上已经注册完成，否则无法获得服务器授权或者跳转
@@ -118,73 +145,76 @@ OAuth运行的先决条件
 对于微信开发来讲，微信用户就资源与拥有者。只需要对接微信的授权服务器就可以开始微信开发了。
 
 ---
-客户注册(Client Registration)
-===
+
+# 客户注册(Client Registration)
+
 1. 通常会填写相关的表单
 2. 或者其它的方式创建客户信息
 
-必须完成的工作：
-1.确定客户类型
-2.重定向URI，回调URL
-3.其它服务器要求的信息（比如密钥）
+必须完成的工作： 1.确定客户类型 2.重定向 URI，回调 URL 3.其它服务器要求的信息（比如密钥）
 
 这个过程类似于微信公众帐号的注册。
 
 ---
-客户类型（Client Types）
-===
+
+# 客户类型（Client Types）
+
 1. confidential
-客户可以自己维护好授权信息，能有效限制不合法的访问。通常HTTP服务器都是这种类型。
+   客户可以自己维护好授权信息，能有效限制不合法的访问。通常 HTTP 服务器都是这种类型。
 
 2. public
-不能通过自己来维护授权信息。比如手机原生应用与基于浏览器的应用。
+   不能通过自己来维护授权信息。比如手机原生应用与基于浏览器的应用。
 
-所以微信API里会分成不同的调用SDK，有给服务器的，有给客户端的。
+所以微信 API 里会分成不同的调用 SDK，有给服务器的，有给客户端的。
 
 ---
-客户标识（Client Identifier）
-===
+
+# 客户标识（Client Identifier）
+
 客户标识（Client Identifier）是一个唯一的字符串。
 用于在授权服务器（authorization server）上标记客户身份。
 
-这里的客户标识（Client Identifier）对应于微信里的AppId。
+这里的客户标识（Client Identifier）对应于微信里的 AppId。
 
 ---
-客户验证（Client Authentication)
-===
-当客户是confidential类型时，授权服务器（authorization server）与客户需要建立一个可信的机制。
+
+# 客户验证（Client Authentication)
+
+当客户是 confidential 类型时，授权服务器（authorization server）与客户需要建立一个可信的机制。
 授权服务器（authorization server）可以设定各种安全的验证形式以方便客户端访问。
 
-例如微信的ack服务器可以用来验证客户端。
+例如微信的 ack 服务器可以用来验证客户端。
 
 ---
-客户密码（Client Password）
-===
+
+# 客户密码（Client Password）
+
 客户密码可以有以下几种形式：
 
 1. HTTP Basic(服务器端必须支持)
-这时username与password都被保存在HTTP的Authorization头里，以application/x-www-form-urlencoded的形式。
+   这时 username 与 password 都被保存在 HTTP 的 Authorization 头里，以 application/x-www-form-urlencoded 的形式。
 
 示例：
+
 ```
 Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
 ```
 
 ---
 
-2. POST请求发送body(服务器可选支持)
-适合可信的客户端。
+2. POST 请求发送 body(服务器可选支持)
+   适合可信的客户端。
 
 必须包含下面两个字段：
-1.client_id 客户ID或者客户标识（Client Identifier）
+1.client_id 客户 ID 或者客户标识（Client Identifier）
 2.client_secret 客户端密钥
 
-
-不允许将这两个字符放在URI中，必须放在POST的body里。
+不允许将这两个字符放在 URI 中，必须放在 POST 的 body 里。
 这种方式不是推荐的方式。
-这时鉴定权服务器必须使用TLS，也就是必须是HTTPS服务器
+这时鉴定权服务器必须使用 TLS，也就是必须是 HTTPS 服务器
 
 ---
+
 示例：
 
 ```
@@ -194,27 +224,29 @@ Authorization: Basic czZCaGRSa3F0Mzo3RmpmcDBaQnIxS3REUmJuZlZkbUl3
 
      grant_type=refresh_token&refresh_token=tGzv3JOkF0XG5Qx2TlKWIA
      &client_id=s6BhdRkqt3&client_secret=7Fjfp0ZBr1KtDRbnfVdmIw
-         
+
 ```
 
-微信里有app_secret。
+微信里有 app_secret。
 
 client_id => AppId
 client_secret => app_secret
 
-可以看出微信API的命名的不规范性
+可以看出微信 API 的命名的不规范性
 
 ---
-获取验证（Obtaining Authorization）
-===
-为了获取Token，Client需要从资源拥有者(Resource Owner)手里获取到授权（Authorization）。
-这个授权（Authorization）是以某种授权许可(Authorization Grant)的形式来表达的。Client使用这个授权许可(Authorization Grant)	来获取Token.
+
+# 获取验证（Obtaining Authorization）
+
+为了获取 Token，Client 需要从资源拥有者(Resource Owner)手里获取到授权（Authorization）。
+这个授权（Authorization）是以某种授权许可(Authorization Grant)的形式来表达的。Client 使用这个授权许可(Authorization Grant) 来获取 Token.
 
 而这个授权许可(Authorization Grant)可以分成多种类型。
 
 ---
-授权许可(Authorization Grant)类型
-===
+
+# 授权许可(Authorization Grant)类型
+
 1. 授权代码(Authorization Code)
 2. 隐性（implicit）
 3. 密码授权（Resource owner password）
@@ -223,23 +255,24 @@ client_secret => app_secret
 
 ---
 
+微信开发应用了 1, 2, 4,三种类型的授权许可(Authorization Grant)类型，分别作用于
 
-微信开发应用了1, 2, 4,三种类型的授权许可(Authorization Grant)类型，分别作用于
-1) 网页授权
-2) 应用授权
-3) 服务器API授权
+1. 网页授权
+2. 应用授权
+3. 服务器 API 授权
 
 ---
-授权代码(Authorization Code)
-===
+
+# 授权代码(Authorization Code)
+
 ---
-这种模式可以用于获取Acess Token和Refresh Token两种形式，是针对可信客户端的（confidential clients）。
-由于这个流程是基于重定向的，所以User-Agent(通常是浏览器）必须能处理来自授权服务器的请求。
+
+这种模式可以用于获取 Acess Token 和 Refresh Token 两种形式，是针对可信客户端的（confidential clients）。
+由于这个流程是基于重定向的，所以 User-Agent(通常是浏览器）必须能处理来自授权服务器的请求。
 
 类似于使用微信帐号登录第三方网站。
 
 ---
-
 
 图示：
 
@@ -274,9 +307,11 @@ client_secret => app_secret
    two parts as they pass through the user-agent.
 
                      Figure 3: Authorization Code Flow
-                     
+
 ```
+
 ---
+
 说明
 
 ```
@@ -309,12 +344,12 @@ client_secret => app_secret
         received matches the URI used to redirect the client in
         step (C).  If valid, the authorization server responds back with
         an access token and, optionally, a refresh token.
-        
+
 ```
 
 ---
-授权请求(Authorization Request)
-===
+
+# 授权请求(Authorization Request)
 
 格式：application/x-www-form-urlencoded
 参数：
@@ -344,6 +379,7 @@ client_secret => app_secret
 ```
 
 ---
+
 示例：
 
 ```
@@ -351,7 +387,9 @@ client_secret => app_secret
         &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
     Host: server.example.com
 ```
+
 ---
+
 授权返回(Authorization Response）
 
 ```
@@ -373,7 +411,9 @@ client_secret => app_secret
          client.
 
 ```
+
 ---
+
 示例：
 
 ```
@@ -383,7 +423,9 @@ client_secret => app_secret
 ```
 
 ---
+
 错误返回（Error Response）
+
 ```
    error
          REQUIRED.  A single ASCII [USASCII] error code from the
@@ -452,8 +494,10 @@ client_secret => app_secret
  HTTP/1.1 302 Found
    Location: https://client.example.com/cb?error=access_denied&state=xyz
 ```
+
 ---
-Token请求（Access Token Request）
+
+Token 请求（Access Token Request）
 
 ```
    grant_type
@@ -472,6 +516,7 @@ Token请求（Access Token Request）
          REQUIRED, if the client is not authenticating with the
          authorization server as described in Section 3.2.1.
 ```
+
 ---
 
 示例:
@@ -487,8 +532,10 @@ Token请求（Access Token Request）
 ```
 
 ---
-- Token响应（Access Token Response）
-通常是JSON结果。示例：
+
+- Token 响应（Access Token Response）
+  通常是 JSON 结果。示例：
+
 ```
      HTTP/1.1 200 OK
      Content-Type: application/json;charset=UTF-8
@@ -505,17 +552,20 @@ Token请求（Access Token Request）
 ```
 
 ---
-默认许可(Implicit Grant)
-===
----
-这种模型主要是用来获取Access Token的，并且不支持Refresh Token。主要是用来提供公共的客户端(public clients)，即手机或者浏览器，知道如何处理重定向。
-通常这里的客户端是浏览器的Javascript脚本
 
-与授权代码（authorization code)不同，这个模型不需要发起两次请求（一次是授权，一次是获取Token)。
-一次请求成功就会获得Token
+# 默认许可(Implicit Grant)
 
 ---
-不包含客户端验证，依靠资源拥有者的存在和重定向URI的注册。因为Access Token已经在重定向URI里面。这样它就可以交资源拥有者或者其它同一设备的应用。
+
+这种模型主要是用来获取 Access Token 的，并且不支持 Refresh Token。主要是用来提供公共的客户端(public clients)，即手机或者浏览器，知道如何处理重定向。
+通常这里的客户端是浏览器的 Javascript 脚本
+
+与授权代码（authorization code)不同，这个模型不需要发起两次请求（一次是授权，一次是获取 Token)。
+一次请求成功就会获得 Token
+
+---
+
+不包含客户端验证，依靠资源拥有者的存在和重定向 URI 的注册。因为 Access Token 已经在重定向 URI 里面。这样它就可以交资源拥有者或者其它同一设备的应用。
 
 ---
 
@@ -558,7 +608,7 @@ Token请求（Access Token Request）
    parts as they pass through the user-agent.
 
                        Figure 4: Implicit Grant Flow
-                       
+
 ```
 
 ---
@@ -599,9 +649,10 @@ Token请求（Access Token Request）
 
    (G)  The user-agent passes the access token to the client.
 ```
+
 ---
-授权请求（Authorization Request）
-===
+
+# 授权请求（Authorization Request）
 
 参数
 
@@ -628,17 +679,21 @@ Token请求（Access Token Request）
          to the client.  The parameter SHOULD be used for preventing
          cross-site request forgery as described in Section 10.12.
 ```
+
 ---
+
 示例：
 
 ```
     GET /authorize?response_type=token&client_id=s6BhdRkqt3&state=xyz
         &redirect_uri=https%3A%2F%2Fclient%2Eexample%2Ecom%2Fcb HTTP/1.1
-    Host: server.example.com   
+    Host: server.example.com
 ```
 
 ---
-Token响应（Access Token Response）
+
+Token 响应（Access Token Response）
+
 ```
    access_token
          REQUIRED.  The access token issued by the authorization server.
@@ -663,9 +718,11 @@ Token响应（Access Token Response）
          REQUIRED if the "state" parameter was present in the client
          authorization request.  The exact value received from the
          client.
-         
+
 ```
+
 ---
+
 示例
 
 ```
@@ -674,25 +731,28 @@ Token响应（Access Token Response）
                &state=xyz&token_type=example&expires_in=3600
 ```
 
-Fragement是用#号开头的内容，这里对应
+Fragement 是用#号开头的内容，这里对应
+
 ```
 #access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=example&expires_in=3600
 ```
 
 ---
+
 错误返回（Error Response）
 
 同上
 
 ---
 
-Resource Owner Password Credentials Grant
-===
+# Resource Owner Password Credentials Grant
+
 ---
+
 适合资源拥有者对客户端有足够的信任的情况。也就是客户端能方便的获得用户授权信息。
 
-
 ---
+
 ```
      +----------+
      | Resource |
@@ -714,7 +774,9 @@ Resource Owner Password Credentials Grant
 
             Figure 5: Resource Owner Password Credentials Flow
 ```
+
 ---
+
 说明
 
 ```
@@ -733,7 +795,7 @@ Resource Owner Password Credentials Grant
 
 ---
 
-Token请求（Access Token Request）
+Token 请求（Access Token Request）
 
 ```
    grant_type
@@ -764,7 +826,8 @@ Token请求（Access Token Request）
 ```
 
 ---
-Token响应（Access Token Response）
+
+Token 响应（Access Token Response）
 
 ```
      HTTP/1.1 200 OK
@@ -780,14 +843,17 @@ Token响应（Access Token Response）
        "example_parameter":"example_value"
      }
 ```
+
 ---
 
-Client Credentials Grant
-===
----
-这种方式下客户端只能通过自己的授权信息来发起请求获取Access Token。这时他可以处理自己管理的资源或者被其它所有者授权的资源。
+# Client Credentials Grant
 
-这种类型只适合confidential的客户端。
+---
+
+这种方式下客户端只能通过自己的授权信息来发起请求获取 Access Token。这时他可以处理自己管理的资源或者被其它所有者授权的资源。
+
+这种类型只适合 confidential 的客户端。
+
 ```
      +---------+                                  +---------------+
      |         |                                  |               |
@@ -799,8 +865,11 @@ Client Credentials Grant
 
                      Figure 6: Client Credentials Flow
 ```
+
 ---
+
 说明
+
 ```
    The flow illustrated in Figure 6 includes the following steps:
 
@@ -812,7 +881,9 @@ Client Credentials Grant
 ```
 
 ---
-Token请求（Access Token Request）
+
+Token 请求（Access Token Request）
+
 ```
    grant_type
          REQUIRED.  Value MUST be set to "client_credentials".
@@ -823,17 +894,21 @@ Token请求（Access Token Request）
 ```
 
 ---
- 示例
- ```
-      POST /token HTTP/1.1
-     Host: server.example.com
-     Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
-     Content-Type: application/x-www-form-urlencoded
 
-     grant_type=client_credentials
+示例
+
 ```
+     POST /token HTTP/1.1
+    Host: server.example.com
+    Authorization: Basic czZCaGRSa3F0MzpnWDFmQmF0M2JW
+    Content-Type: application/x-www-form-urlencoded
+
+    grant_type=client_credentials
+```
+
 ---
-Token响应（Access Token Response）
+
+Token 响应（Access Token Response）
 
 ```
      HTTP/1.1 200 OK
@@ -851,8 +926,8 @@ Token响应（Access Token Response）
 
 ---
 
-Refresh Token
-===
+# Refresh Token
+
 ```
   +--------+                                           +---------------+
   |        |--(A)------- Authorization Grant --------->|               |
@@ -876,45 +951,13 @@ Refresh Token
   +--------+           & Optional Refresh Token        +---------------+
 
                Figure 2: Refreshing an Expired Access Token
-               
-``` 
+
+```
 
 ---
-微信公众号开发
-===
+
+# 微信公众号开发
+
 1. 注册成为微信的客户端
-2. 直接根据授权信息发送请求 
+2. 直接根据授权信息发送请求
 3. 验证可信服务器接收回调函数
-
-
-
-         
-               
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

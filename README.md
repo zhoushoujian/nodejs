@@ -2,6 +2,8 @@
 > 使用Marp可以得到更好的观看效果。   
 > Marp下载地址：https://yhatt.github.io/marp/   
 
+discord交流群(需翻墙)：[![](https://camo.githubusercontent.com/e00425b0ac4026323168bfbe01cbebe8a434f1fe/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f646973636f72642d6a6f696e253230636861742d626c75652e7376673f6c6f676f3d646973636f7264)](https://discordapp.com/channels/632411599193243678/632411599193243680)
+
 # Nodejs Web开发
 
 ## Nodejs介绍与安装
